@@ -174,3 +174,87 @@ GROUP BY
 	f.filiere_formation
 ORDER BY
 	total_candidatures_pro DESC;
+
+-- Partie 3 . 3
+--  Nombre total de candidatures en informatique
+WITH Informatique_formation AS (
+    SELECT id_formation
+    FROM Formation
+    WHERE filiere_formation ILIKE '%informatique%'
+       OR filiere_formation_detail ILIKE '%informatique%'
+),
+
+Etudes_Courtes_Informatique AS (
+    SELECT id_info_formation, code_uai_etab, id_formation, eff_tot_candi_form
+    FROM Infos_Formation_Etablissement
+    WHERE id_formation IN (SELECT id_formation FROM Informatique_formation)
+)
+
+SELECT
+    SUM(eci.eff_tot_candi_form) AS total_candidatures
+FROM
+    Etudes_Courtes_Informatique eci;
+
+-- 1. Nombre total de candidatures féminines en informatique
+WITH Informatique_formation AS (
+    SELECT id_formation
+    FROM Formation
+    WHERE filiere_formation ILIKE '%informatique%'
+       OR filiere_formation_detail ILIKE '%informatique%'
+),
+
+Etudes_Courtes_Informatique AS (
+    SELECT id_info_formation, eff_candidate_form
+    FROM Infos_Formation_Etablissement
+    WHERE id_formation IN (SELECT id_formation FROM Informatique_formation)
+)
+
+SELECT
+    SUM(eci.eff_candidate_form) AS total_candidatures_femmes
+FROM
+    Etudes_Courtes_Informatique eci;
+
+-- 2. Nombre total de candidatures masculines en informatique
+WITH Informatique_formation AS (
+    SELECT id_formation
+    FROM Formation
+    WHERE filiere_formation ILIKE '%informatique%'
+       OR filiere_formation_detail ILIKE '%informatique%'
+),
+Etudes_Courtes_Informatique AS (
+    SELECT id_info_formation, eff_tot_candi_form, eff_candidate_form
+    FROM Infos_Formation_Etablissement
+    WHERE id_formation IN (SELECT id_formation FROM Informatique_formation)
+)
+
+SELECT
+    SUM(eci.eff_tot_candi_form * eci.eff_candidate_form / 100) AS total_candidatures_masculines_estime
+FROM
+    Etudes_Courtes_Informatique eci;
+
+
+-- 3. Nombre total de candidatures de boursiers en informatique
+WITH Informatique_formation AS (
+    SELECT id_formation
+    FROM Formation
+    WHERE filiere_formation ILIKE '%informatique%'
+       OR filiere_formation_detail ILIKE '%informatique%'
+),
+
+Etudes_Courtes_Informatique AS (
+    SELECT id_info_formation,
+           eff_tot_candi_boursier_neo_bac_gene_phase_ppl_form,
+           eff_tot_candi_boursier_neo_bac_tech_phase_ppl_form,
+           eff_tot_candi_boursier_neo_bac_pro_phase_ppl_form,
+           eff_tot_candi_boursier_autre_phase_ppl_form
+    FROM Infos_Formation_Etablissement
+    WHERE id_formation IN (SELECT id_formation FROM Informatique_formation)
+)
+
+SELECT
+    SUM(eci.eff_tot_candi_boursier_neo_bac_gene_phase_ppl_form +
+        eci.eff_tot_candi_boursier_neo_bac_tech_phase_ppl_form +
+        eci.eff_tot_candi_boursier_neo_bac_pro_phase_ppl_form +
+        eci.eff_tot_candi_boursier_autre_phase_ppl_form) AS total_candidatures_boursiers
+FROM
+    Etudes_Courtes_Informatique eci;
