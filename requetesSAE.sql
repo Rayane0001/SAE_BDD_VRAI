@@ -177,15 +177,17 @@ ORDER BY
 
 -- Partie 3 . 3
 --  Nombre total de candidatures en informatique
-WITH Etudes_Courtes_Informatique AS (
+WITH Informatique_formation AS (
+    SELECT id_formation
+    FROM Formation
+    WHERE filiere_formation ILIKE '%informatique%'
+       OR filiere_formation_detail ILIKE '%informatique%'
+),
+
+Etudes_Courtes_Informatique AS (
     SELECT id_info_formation, code_uai_etab, id_formation, eff_tot_candi_form
     FROM Infos_Formation_Etablissement
-    WHERE id_formation IN (
-        SELECT id_formation
-        FROM Formation
-        WHERE filiere_formation ILIKE '%informatique%'
-        OR filiere_formation_detail ILIKE '%informatique%'
-    )
+    WHERE id_formation IN ((SELECT id_formation FROM Informatique_formation))
 )
 
 SELECT
@@ -194,15 +196,17 @@ FROM
     Etudes_Courtes_Informatique eci;
 
 -- 1. Nombre total de candidatures féminines en informatique
-WITH Etudes_Courtes_Informatique AS (
+WITH Informatique_formation AS (
+    SELECT id_formation
+    FROM Formation
+    WHERE filiere_formation ILIKE '%informatique%'
+       OR filiere_formation_detail ILIKE '%informatique%'
+),
+
+Etudes_Courtes_Informatique AS (
     SELECT id_info_formation, eff_candidate_form
     FROM Infos_Formation_Etablissement
-    WHERE id_formation IN (
-        SELECT id_formation
-        FROM Formation
-        WHERE filiere_formation ILIKE '%informatique%'
-        OR filiere_formation_detail ILIKE '%informatique%'
-    )
+    WHERE id_formation IN (SELECT id_formation FROM Informatique_formation)
 )
 
 SELECT
@@ -211,15 +215,16 @@ FROM
     Etudes_Courtes_Informatique eci;
 
 -- 2. Nombre total de candidatures masculines en informatique
-WITH Etudes_Courtes_Informatique AS (
+WITH Informatique_formation AS (
+    SELECT id_formation
+    FROM Formation
+    WHERE filiere_formation ILIKE '%informatique%'
+       OR filiere_formation_detail ILIKE '%informatique%'
+),
+Etudes_Courtes_Informatique AS (
     SELECT id_info_formation, eff_tot_candi_form, eff_candidate_form
     FROM Infos_Formation_Etablissement
-    WHERE id_formation IN (
-        SELECT id_formation
-        FROM Formation
-        WHERE filiere_formation ILIKE '%informatique%'
-        OR filiere_formation_detail ILIKE '%informatique%'
-    )
+    WHERE id_formation IN (SELECT id_formation FROM Informatique_formation)
 )
 
 SELECT
@@ -229,19 +234,21 @@ FROM
 
 
 -- 3. Nombre total de candidatures de boursiers en informatique
-WITH Etudes_Courtes_Informatique AS (
+WITH Informatique_formation AS (
+    SELECT id_formation
+    FROM Formation
+    WHERE filiere_formation ILIKE '%informatique%'
+       OR filiere_formation_detail ILIKE '%informatique%'
+),
+
+Etudes_Courtes_Informatique AS (
     SELECT id_info_formation,
-        eff_tot_candi_boursier_neo_bac_gene_phase_ppl_form,
-        eff_tot_candi_boursier_neo_bac_tech_phase_ppl_form,
-        eff_tot_candi_boursier_neo_bac_pro_phase_ppl_form,
-        eff_tot_candi_boursier_autre_phase_ppl_form
+           eff_tot_candi_boursier_neo_bac_gene_phase_ppl_form,
+           eff_tot_candi_boursier_neo_bac_tech_phase_ppl_form,
+           eff_tot_candi_boursier_neo_bac_pro_phase_ppl_form,
+           eff_tot_candi_boursier_autre_phase_ppl_form
     FROM Infos_Formation_Etablissement
-    WHERE id_formation IN (
-        SELECT id_formation
-        FROM Formation
-        WHERE filiere_formation ILIKE '%informatique%'
-        OR filiere_formation_detail ILIKE '%informatique%'
-    )
+    WHERE id_formation IN (SELECT id_formation FROM Informatique_formation)
 )
 
 SELECT
