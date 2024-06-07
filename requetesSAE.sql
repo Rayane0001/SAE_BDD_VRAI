@@ -24,3 +24,18 @@ GROUP BY
 	f.filiere_formation
 ORDER BY
 	total_candidatures_tech DESC;
+
+-- DEUXIEME PARTIE
+-- Calcul du nombre total de candidatures par filière de formation
+SELECT F.filiere_formation, SUM(IFE.eff_tot_candi_form) AS total_candidatures
+FROM Infos_Formation_Etablissement IFE
+INNER JOIN Formation F ON IFE.id_formation = F.id_formation
+WHERE IFE.code_uai_etab IN (
+	SELECT E.code_uai_etab
+    FROM Etablissement E
+    INNER JOIN Departement D ON E.code_dept = D.code_dept
+    INNER JOIN Region R ON D.id_region = R.id_region
+    WHERE R.nom_region = 'Hauts-de-France'
+)
+GROUP BY F.filiere_formation
+ORDER BY total_candidatures DESC;
