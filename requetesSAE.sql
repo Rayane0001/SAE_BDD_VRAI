@@ -89,6 +89,36 @@ INNER JOIN Formation F ON IFE.id_formation = F.id_formation
 GROUP BY F.filiere_formation
 ORDER BY total_candidatures_gene DESC;
 
+-- Candidatures par filière de formation pour les néobacheliers technologiques
+SELECT F.filiere_formation, SUM(IFE.eff_tot_candi_neo_bac_tech_phase_ppl_form) AS total_candidatures_tech
+FROM Infos_Formation_Etablissement IFE
+INNER JOIN Formation F ON IFE.id_formation = F.id_formation
+	JOIN
+        Etablissement e ON IFE.code_uai_etab = e.code_uai_etab
+    JOIN
+        Departement d ON e.code_dept = d.code_dept
+    JOIN
+        Region r ON d.id_region = r.id_region
+    WHERE
+        r.nom_region = 'Hauts-de-France'
+GROUP BY F.filiere_formation
+ORDER BY total_candidatures_tech DESC;
+
+-- Candidatures par filière de formation pour les néobacheliers professionnels
+SELECT F.filiere_formation, SUM(IFE.eff_tot_candi_neo_bac_pro_phase_ppl_form) AS total_candidatures_pro
+FROM Infos_Formation_Etablissement IFE
+INNER JOIN Formation F ON IFE.id_formation = F.id_formation
+	JOIN
+        Etablissement e ON IFE.code_uai_etab = e.code_uai_etab
+    JOIN
+        Departement d ON e.code_dept = d.code_dept
+    JOIN
+        Region r ON d.id_region = r.id_region
+    WHERE
+        r.nom_region = 'Hauts-de-France'
+GROUP BY F.filiere_formation
+ORDER BY total_candidatures_pro DESC;
+
 
 
 --TROISIEME PARTIE
