@@ -57,6 +57,24 @@ ORDER BY total_candidatures DESC;
         total_candidatures_hommes ASC
     LIMIT 10;
 
+-- Candidatures par filière de formation pour les boursiers néobacheliers
+SELECT F.filiere_formation, SUM(IFE.eff_tot_candi_boursier_neo_bac_gene_phase_ppl_form 
+                               + IFE.eff_tot_candi_boursier_neo_bac_tech_phase_ppl_form 
+                               + IFE.eff_tot_candi_boursier_neo_bac_pro_phase_ppl_form) AS total_candidatures_boursiers
+FROM Infos_Formation_Etablissement IFE
+INNER JOIN Formation F ON IFE.id_formation = F.id_formation
+    JOIN
+        Etablissement e ON IFE.code_uai_etab = e.code_uai_etab
+    JOIN
+        Departement d ON e.code_dept = d.code_dept
+    JOIN
+        Region r ON d.id_region = r.id_region
+    WHERE
+        r.nom_region = 'Hauts-de-France'
+GROUP BY F.filiere_formation
+ORDER BY total_candidatures_boursiers DESC;
+
+
 --TROISIEME PARTIE
 --Requête 1 : Les filières qui attirent les meilleurs candidats
 SELECT
