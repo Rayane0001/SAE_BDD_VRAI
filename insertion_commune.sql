@@ -27,7 +27,7 @@ select * from Formation;
 INSERT INTO Departement(code_dept, nom_dept, id_region)
 SELECT code_dept, nom_dept, id_region
 FROM (
-    select code_dept, nom_dept, nom_region 
+    select code_dept, nom_dept, nom_region
     from donnees_S204_05
     GROUP BY code_dept, nom_dept, nom_region
 ) as dept natural join Region
@@ -59,9 +59,9 @@ select * from Etablissement;
 INSERT INTO Infos_Formation_Etablissement(code_uai_etab,
                                           id_formation,
                                           capacite_par_form,
+                                          eff_tot_candi_form,
                                           eff_candidate_form,
                                           eff_tot_candi_phase_ppl_form,
-                                          eff_tot_candi_form,
                                           eff_tot_candi_neo_bac_gene_phase_ppl_form,
                                           eff_tot_candi_boursier_neo_bac_gene_phase_ppl_form,
                                           eff_tot_candi_neo_bac_tech_phase_ppl_form,
@@ -98,9 +98,9 @@ INSERT INTO Infos_Formation_Etablissement(code_uai_etab,
 SELECT  code_uai_etab,
         id_formation,
         capacite_par_form,
+        eff_tot_candi_form,
         eff_candidate_form,
         eff_tot_candi_phase_ppl_form,
-        eff_tot_candi_form,
         eff_tot_candi_neo_bac_gene_phase_ppl_form,
         eff_tot_candi_boursier_neo_bac_gene_phase_ppl_form,
         eff_tot_candi_neo_bac_tech_phase_ppl_form,
@@ -135,13 +135,12 @@ SELECT  code_uai_etab,
         eff_admis_neo_bac_pro_mention,
         statut_etab
 FROM (
-    SELECT code_uai_etab, id_formation, capacite_par_form, eff_candidate_form, eff_tot_candi_phase_ppl_form, eff_tot_candi_form, eff_tot_candi_neo_bac_gene_phase_ppl_form, eff_tot_candi_boursier_neo_bac_gene_phase_ppl_form, eff_tot_candi_neo_bac_tech_phase_ppl_form, eff_tot_candi_boursier_neo_bac_tech_phase_ppl_form, eff_tot_candi_neo_bac_pro_phase_ppl_form, eff_tot_candi_boursier_neo_bac_pro_phase_ppl_form, eff_tot_candi_boursier_autre_phase_ppl_form, eff_tot_classes_etab_phase_principale, eff_tot_candi_neo_bac_gene_classes_etab, eff_tot_candi_boursier_neo_bac_gene_classes_etab, eff_candi_neo_bac_tech_classes_etab, eff_candi_boursier_neo_bac_tech_classes_etab, eff_candi_neo_bac_pro_classes_etab, eff_candi_boursier_neo_bac_pro_classes_etab, eff_candi_autre_classe_par_etab, eff_candi_autre_ayant_recu_prop_classe_par_etab, eff_tot_admis_etab, eff_candidates_admises, eff_admis_phase_principale, eff_admis_neo_bac, eff_admis_neo_bac_gene, eff_admis_neo_bac_tech, eff_admis_neo_bac_pro, eff_autres_admis, eff_admis_neo_bac_sans_mention, eff_admis_neo_bac_AB, eff_admis_neo_bac_B, eff_admis_neo_bac_TB, eff_admis_neo_bac_TB_feli, eff_admis_neo_bac_gene_mention, eff_admis_neo_bac_tech_mention, eff_admis_neo_bac_pro_mention, statut_etab
+    SELECT code_uai_etab, id_formation, capacite_par_form, eff_tot_candi_form, eff_candidate_form, eff_tot_candi_phase_ppl_form, eff_tot_candi_neo_bac_gene_phase_ppl_form, eff_tot_candi_boursier_neo_bac_gene_phase_ppl_form, eff_tot_candi_neo_bac_tech_phase_ppl_form, eff_tot_candi_boursier_neo_bac_tech_phase_ppl_form, eff_tot_candi_neo_bac_pro_phase_ppl_form, eff_tot_candi_boursier_neo_bac_pro_phase_ppl_form, eff_tot_candi_boursier_autre_phase_ppl_form, eff_tot_classes_etab_phase_principale, eff_tot_candi_neo_bac_gene_classes_etab, eff_tot_candi_boursier_neo_bac_gene_classes_etab, eff_candi_neo_bac_tech_classes_etab, eff_candi_boursier_neo_bac_tech_classes_etab, eff_candi_neo_bac_pro_classes_etab, eff_candi_boursier_neo_bac_pro_classes_etab, eff_candi_autre_classe_par_etab, eff_candi_autre_ayant_recu_prop_classe_par_etab, eff_tot_admis_etab, eff_candidates_admises, eff_admis_phase_principale, eff_admis_neo_bac, eff_admis_neo_bac_gene, eff_admis_neo_bac_tech, eff_admis_neo_bac_pro, eff_autres_admis, eff_admis_neo_bac_sans_mention, eff_admis_neo_bac_AB, eff_admis_neo_bac_B, eff_admis_neo_bac_TB, eff_admis_neo_bac_TB_feli, eff_admis_neo_bac_gene_mention, eff_admis_neo_bac_tech_mention, eff_admis_neo_bac_pro_mention, statut_etab
     FROM donnees_S204_05
-    JOIN Formation ON donnees_S204_05.filiere_formation_agregation = Formation.filiere_formation_agregation 
-                  AND donnees_S204_05.filiere_formation = Formation.filiere_formation 
+    JOIN Formation ON donnees_S204_05.filiere_formation_agregation = Formation.filiere_formation_agregation
+                  AND donnees_S204_05.filiere_formation = Formation.filiere_formation
                   AND donnees_S204_05.filiere_formation_detail = Formation.filiere_formation_detail
 ) AS info_form_etab;
 
 
 select * from Infos_Formation_Etablissement;
-

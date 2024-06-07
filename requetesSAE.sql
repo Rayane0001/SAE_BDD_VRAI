@@ -228,7 +228,7 @@ Etudes_Courtes_Informatique AS (
 )
 
 SELECT
-    SUM(eci.eff_tot_candi_form * eci.eff_candidate_form / 100) AS total_candidatures_masculines_estime
+    SUM(eci.eff_tot_candi_form * eci.eff_candidate_form / 1000) AS total_candidatures_masculines_estime
 FROM
     Etudes_Courtes_Informatique eci;
 
