@@ -24,17 +24,3 @@ GROUP BY
 	f.filiere_formation
 ORDER BY
 	total_candidatures_tech DESC;
-
--- Requête 3 : Les filières qui attirent les bacheliers professionnels (néobacheliers)
-SELECT
-	f.filiere_formation,
-	SUM(i.eff_tot_candi_neo_bac_pro_phase_ppl_form) AS total_candidatures_pro
-FROM
-	Infos_Formation_Etablissement i
-JOIN
-	Formation f ON i.id_formation = f.id_formation
-GROUP BY
-	f.filiere_formation
-ORDER BY
-	total_candidatures_pro DESC;
-
