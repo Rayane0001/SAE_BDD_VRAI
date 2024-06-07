@@ -38,7 +38,7 @@ ORDER BY total_candidatures DESC;
     -- Pour les filières les moins demandées par les hommes
     SELECT
         f.filiere_formation,
-        SUM(i.eff_candidate_form) AS total_candidatures_hommes
+        SUM(i.eff_candidate_form) AS total_candidatures_femmes
     FROM
         Infos_Formation_Etablissement i
     JOIN
