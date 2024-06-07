@@ -54,7 +54,7 @@ ORDER BY total_candidatures DESC;
     GROUP BY
         f.filiere_formation
     ORDER BY
-        total_candidatures_hommes ASC
+        total_candidatures_femmes ASC
     LIMIT 10;
 
 -- Candidatures par filière de formation pour les boursiers néobacheliers
