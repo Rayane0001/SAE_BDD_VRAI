@@ -214,7 +214,7 @@ SELECT
 FROM
     Etudes_Courtes_Informatique eci;
 
--- 2. Nombre total de candidatures masculines en informatique
+-- 2. Nombre total de candidatures mascwulines en informatique
 WITH Informatique_formation AS (
     SELECT id_formation
     FROM Formation
